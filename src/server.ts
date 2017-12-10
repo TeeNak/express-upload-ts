@@ -15,6 +15,9 @@ import * as path from "path";
 import * as mongoose from "mongoose";
 import * as passport from "passport";
 import expressValidator = require("express-validator");
+import * as multer from "multer";
+
+const upload = multer({ dest: "uploads/" });
 
 const MongoStore = mongo(session);
 
@@ -32,6 +35,7 @@ import * as userController from "./controllers/user";
 import * as apiController from "./controllers/api";
 import * as contactController from "./controllers/contact";
 import * as uploadController from "./controllers/upload";
+import * as uploadController2 from "./controllers/upload2";
 
 /**
  * API keys and Passport configuration.
@@ -117,6 +121,7 @@ app.post("/signup", userController.postSignup);
 app.get("/contact", contactController.getContact);
 app.post("/contact", contactController.postContact);
 app.post("/upload", uploadController.postUpload);
+app.post("/upload2", upload.any(), uploadController2.postUpload2);
 app.get("/account", passportConfig.isAuthenticated, userController.getAccount);
 app.post("/account/profile", passportConfig.isAuthenticated, userController.postUpdateProfile);
 app.post("/account/password", passportConfig.isAuthenticated, userController.postUpdatePassword);
